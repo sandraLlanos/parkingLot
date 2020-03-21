@@ -1,5 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -8,7 +13,21 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [NavbarComponent, SidebarComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    StoreModule,
+    EffectsModule
   ],
-  exports:[NavbarComponent,SidebarComponent]
+  exports:[
+    NavbarComponent,
+    SidebarComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    StoreModule,
+    EffectsModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule { }

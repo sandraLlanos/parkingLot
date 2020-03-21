@@ -2,23 +2,23 @@
   <div class="card p-5">
     <h2 class="text-center">Create New Vehicle</h2>
     <div class="card-body">
-      <form>
+      <form [formGroup]="form" #frmVehicle="ngForm" id="frmVehicle" novalidate (ngSubmit)="onSaveVehicle()">
         <div class="form-group">
           <label class="mr-2">Vehicle Plate</label>
           <em class="far fa-question-circle" data-toggle="tooltip" data-placement="right" title="
           Please enter the license plate">
           </em>
-          <input type="text" class="form-control" id="Plate" placeholder="XYZ123">
+          <input type="text" class="form-control" id="Plate" placeholder="XYZ123" formControlName="plaque">
         </div>
         <div class="form-group">
           <label class="mr-2">vehicle Type</label>
           <em class="far fa-question-circle" data-toggle="tooltip" data-placement="right" title="
           Please enter the vehicle Type">
           </em>
-          <select class="form-control" id="Type">
-            <option>Motocycle</option>
-            <option>Sedan</option>
-            <option>Truck</option>
+          <select class="form-control" id="Type" formControlName="type">
+            <option value="Motocycle">Motocycle</option>
+            <option value="Sedan">Sedan</option>
+            <option value="Truck">Truck</option>
           </select>
         </div>
         <div class="form-group">
@@ -26,14 +26,25 @@
           <em class="far fa-question-circle" data-toggle="tooltip" data-placement="right" title="
           Please enter the Space">
           </em>
-          <select class="form-control" id="Space">
-            <option>small</option>
-            <option>medium</option>
-            <option>big</option>
+          <select class="form-control" id="Space" formControlName="space">
+            <option value="small">small</option>
+            <option value="medium">medium</option>
+            <option value="big">big</option>
           </select>
         </div>
       </form>
     </div>
-    <button type="button" class="btn btn-outline-primary">Add Vehicle</button>
+    <div class="form-group buttons-group">
+      <div class="btn-group">
+        <button type="button" (click)="onBack()" class="btn btn-secondary btn-sm">
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button type="button" (click)="reset()" *ngIf="mode > 0" class="btn btn-danger btn-sm">
+          <i class="fa fa-undo"></i> Reset
+        </button>
+      </div>
+      <!-- <button type="submit" class="btn btn-primary" [disabled]="!form.get('Password').valid || !form.get('UserName').valid">Save user</button> -->
+      <button type="submit" class="btn btn-outline-primary" (click)='onSaveVehicle()'>Add Vehicle</button>
+    </div>
   </div>
 </div>
