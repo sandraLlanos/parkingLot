@@ -1,56 +1,13 @@
 import * as  vehicleActions from '../store/vehicle.actions';
 import { AppAction } from '../app.actions';
-import { Vehicle } from '../parking-lot/shared/vehicle';
+import { Vehicle } from '../parking-lot/models/vehicle';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-// export interface State {
-//     queue: [],
-//     waitQueue: []
-// }
-
-// const initialState: State = {
-//     queue: [],
-//     waitQueue: []
-// }
-
-// export function vehicleReducer(state = initialState, action: VehicleActions.actions) {
-//     switch (action.type) {
-//         case VehicleActionsTypes.createVehicle:
-//             if (state.queue.length >= 8) {
-//                 return {
-//                     ...state,
-//                     waitQueue: [...state.waitQueue, action.payload]
-//                 }
-//             } else {
-//                 return {
-//                     ...state,
-//                     queue: [...state.queue, action.payload]
-//                 }
-//             }
-//             break
-//         case VehicleActionsTypes.deleteVehicle:
-//             let queue = state.queue.filter((val, index) => index !== action.payload);
-//             if (state.waitQueue.length >= 1) {
-//                 return {
-//                     ...state,
-//                     queue: [...queue, ...state.waitQueue.slice(0, 1)],
-//                     waitQueue: [...state.waitQueue.slice(1)]
-//                 }
-//             } else {
-//                 return {
-//                     ...state,
-//                     queue: queue,
-//                 }
-//             }
-//         default:
-//             return state;
-//     }
-// }
-
+const PARKING_LOT_SIZE = 2;
 
 export interface State {
-    data: Vehicle[];
-    data1: Vehicle[];
+    queue: Vehicle[];
+    waitqueue: Vehicle[];
     selected: Vehicle;
     action: string;
     done: boolean;
@@ -58,8 +15,8 @@ export interface State {
 }
 
 const initialState: State = {
-    data: [],
-    data1: [],
+    queue: [],
+    waitqueue: [],
     selected: null,
     action: null,
     done: false,
@@ -69,6 +26,7 @@ const initialState: State = {
 export function reducer(state = initialState, action: AppAction): State {
     switch (action.type) {
         case vehicleActions.CREATE_VEHICLE:
+            console.log(action.payload)
             return {
                 ...state,
                 selected: action.payload,
@@ -78,47 +36,41 @@ export function reducer(state = initialState, action: AppAction): State {
             };
         case vehicleActions.CREATE_VEHICLE_SUCCESS:
             {
-                const newUser = {
-                    ...state.selected,
-                    ID: action.payload
+                console.log(state.selected)
+                const newVehicle = {
+                    ...state.selected,  
                 };
 
-                if (state.data.length >= 2) {
-                    const data = [
-                        ...state.data1,
-                        newUser
+                if (state.queue.length >= PARKING_LOT_SIZE) {
+                    const dataWait = [
+                        ...state.waitqueue,
+                        newVehicle
                     ];
                     return {
                         ...state,
-                        data1: data,
+                        waitqueue: dataWait,
                         selected: null,
                         error: null,
                         done: true
                     };
                 } else {
                     const data = [
-                        ...state.data,
-                        newUser
+                        ...state.queue,
+                        newVehicle
                     ];
                     return {
                         ...state,
-                        data: data,
+                        queue: data,
                         selected: null,
                         error: null,
                         done: true
                     };
                 }
             }
-        case vehicleActions.CREATE_VEHICLE_ERROR:
-            return {
-                ...state,
-                selected: null,
-                done: true,
-                error: action.payload
-            };
         case vehicleActions.DELETE_VEHICLE:
             {
-                const selected = state.data.find(h => h.plaque === action.payload);
+                console.log(action.payload)
+                const selected = state.queue.find(h => h.vehicleID === action.payload);
                 return {
                     ...state,
                     selected,
@@ -129,40 +81,37 @@ export function reducer(state = initialState, action: AppAction): State {
             }
         case vehicleActions.DELETE_VEHICLE_SUCCESS:
             {
-                let data = state.data.filter(h => h.plaque !== state.selected.plaque);
-                let data1 = state.data1.slice();
-                if (state.data1.length > 0){
-                    data.push(state.data1[0]);
-                    data1.shift() 
+                let data = state.queue.filter(h => h.vehicleID !== state.selected.vehicleID);
+                let dataWait = state.waitqueue.slice();
+                if (state.waitqueue.length > 0) {
+                    data.push(state.waitqueue[0]);
+                    dataWait.shift()
                 }
-                
+
                 return {
                     ...state,
-                    data,
-                    data1,
+                    queue:data,
+                    waitqueue:dataWait,
                     selected: null,
                     error: null,
                     done: true
                 };
             }
-        // case vehicleActions.DELETE_VEHICLE_ERROR:
-        //     return {
-        //         ...state,
-        //         selected: null,
-        //         done: true,
-        //         error: action.payload
-        //     };
+        case (vehicleActions.DELETE_VEHICLE_ERROR || vehicleActions.CREATE_VEHICLE_ERROR):
+            return {
+                ...state,
+                selected: null,
+                done: true,
+                error: action.payload
+            };
     }
     return state;
 }
 
-/*************************
- * SELECTORS
- ************************/
 
 export const getVehiclesState = createFeatureSelector<State>('vehicles');
-export const getAllVehicles = createSelector(getVehiclesState, (state: State) => state.data);
-export const getAllVehicles1 = createSelector(getVehiclesState, (state: State) => state.data1);
+export const getAllVehicles = createSelector(getVehiclesState, (state: State) => state.queue);
+export const getAllVehiclesWaiting = createSelector(getVehiclesState, (state: State) => state.waitqueue);
 export const isDeleted = createSelector(getVehiclesState, (state: State) =>
     state.action === vehicleActions.DELETE_VEHICLE && state.done && !state.error);
 export const isCreated = createSelector(getVehiclesState, (state: State) =>
@@ -178,26 +127,3 @@ export const getCreateError = createSelector(getVehiclesState, (state: State) =>
         ? state.error
         : null;
 });
-
-// export const getVehicleState = (state: State) => state.data;
-// export const getVehicleAction = (action: any) => action.payload
-// export const getVehicleError = (state: State) => state.error;
-
-
-// export const getVehicleState = createFeatureSelector<State>('vehicles');
-// export const getAllvehicles = createSelector(getVehicleState, (state: State) => state.data);
-// export const isDeleted = createSelector(getVehicleState, (state: State) =>
-//     state.action === VehicleActionsTypes.deleteVehicle && state.done && !state.error);
-// export const isCreated = createSelector(getVehicleState, (state: State) =>
-//     state.action === VehicleActionsTypes.createVehicle && state.done && !state.error);
-// export const getDeleteError = createSelector(getVehicleState, (state: State) => {
-//     return state.action === VehicleActionsTypes.deleteVehicle
-//         ? state.error
-//         : null;
-// });
-// export const getCreateError = createSelector(getVehicleState, (state: State) => {
-//     return state.action === VehicleActionsTypes.createVehicle
-//         ? state.error
-//         : null;
-// });
-

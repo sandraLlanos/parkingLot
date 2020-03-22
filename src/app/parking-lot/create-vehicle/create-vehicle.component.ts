@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Vehicle } from '../shared/vehicle';
+import { Vehicle } from '../models/vehicle';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app.state';
 import { AddVehicle } from 'src/app/store/vehicle.actions';
+import { Observable } from 'rxjs';
+import {getAllVehicles, getAllVehiclesWaiting} from '../../store/vehicle.reducers';
+
 
 @Component({
   selector: 'app-create-vehicle',
@@ -14,49 +16,68 @@ import { AddVehicle } from 'src/app/store/vehicle.actions';
 export class CreateVehicleComponent implements OnInit {
   title = 'Create new vehicle';
   vehicle: Vehicle = new Vehicle();
-  vehicleType:string;
+  vehicles: Observable<Vehicle[]>;
+  vehiclesWait: Observable<Vehicle[]>;
+  vehicleType: string;
   form: FormGroup;
 
   constructor(private router: Router,
-    private store: Store<AppState>) {
+    private store: Store) {
+
     this.form = new FormGroup({
-      'plaque': new FormControl(this.vehicle.plaque, [
-        // Validators.required,
-        // Validators.minLength(3)
+      'vehicleID': new FormControl(this.vehicle.vehicleID, [
+        Validators.required,
+        Validators.minLength(3)
       ]),
-      'type': new FormControl(this.vehicle.vehicle, [
-        // Validators.required,
-        // Validators.minLength(3)
+      'type': new FormControl(this.vehicle.type, [
+        Validators.required
       ]),
       'space': new FormControl(this.vehicle.space, [
-        // Validators.required,
-        // Validators.minLength(3)
+        Validators.required,
       ])
     });
 
     this.form.controls.type.valueChanges.subscribe(value => {
       console.log(value);
       this.vehicleType = value;
-      
+
     })
 
+    this.form.controls.vehicleID.valueChanges.subscribe(formValue =>{
+      this.vehicles.subscribe(vehicleList => {
+        vehicleList.forEach(vehicle => {
+          if (vehicle.vehicleID == formValue) {
+            this.form.controls.vehicleID.setErrors({duplicatedID:true})
+          }
+        })
+      });
+      this.vehiclesWait.subscribe(vehicleWaitingList => {
+        vehicleWaitingList.forEach(waitingVehicle => {
+          if (waitingVehicle.vehicleID == formValue) {
+            this.form.controls.vehicleID.setErrors({duplicatedID:true})
+          }
+        })
+      });
+
+    })
   }
+  get vehicleID() { return this.form.get('vehicleID'); }
+  get type() { return this.form.get('type'); }
+  get space() { return this.form.get('space'); }
 
   ngOnInit() {
-    console.log('... initializing create vehicle component.');
-  }
-  onBack() {
-    this.router.navigate(['/list']);
+    this.vehicles = this.store.select(getAllVehicles);
+    this.vehiclesWait = this.store.select(getAllVehiclesWaiting);    
+
   }
   onSaveVehicle() {
-    console.log('onsave');
     this.store.dispatch(new AddVehicle(this.form.value));
-    console.log(this.form.value);
+    this.router.navigate(['/list']);
   }
   reset() {
     this.form.reset({
-      plaque: '',
-      vehicle: '',
+      vehicleID: '',
+      type: '',
       space: ''
     })
   }

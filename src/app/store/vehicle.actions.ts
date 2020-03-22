@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Vehicle} from '../parking-lot/shared/vehicle'
+import {Vehicle} from '../parking-lot/models/vehicle'
 
 export const CREATE_VEHICLE = '[CREATE] Vehicle';
 export const CREATE_VEHICLE_SUCCESS = '[CREATE] Vehicle Success';

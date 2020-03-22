@@ -12,6 +12,7 @@ import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store'
 import { AppComponent } from './app.component';
 // import { ParkingLotComponent } from './parking-lot/parking-lot.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -13,7 +13,7 @@ import {
     RemoveVehicleError,
     RemoveVehicleSuccess,
 } from './vehicle.actions';
-import { Vehicle } from '../parking-lot/shared/vehicle';
+import { Vehicle } from '../parking-lot/models/vehicle';
 
 @Injectable()
 export class VehiclesEffects {
@@ -25,7 +25,7 @@ export class VehiclesEffects {
         ofType(vehicleActions.CREATE_VEHICLE),
         tap(v => console.log(vehicleActions.CREATE_VEHICLE)),
         map((action: AddVehicle) => action.payload),
-        map((response) => new AddVehicleSuccess(response.plaque)),
+        map((response) => new AddVehicleSuccess(response.vehicleID)),
         catchError((err) => [new AddVehicleError(err)])
     );
     @Effect()

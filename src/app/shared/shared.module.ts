@@ -1,6 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MaterialModule } from './material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {StoreModule} from '@ngrx/store';
@@ -17,7 +19,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule,
-    EffectsModule
+    EffectsModule,
+    MaterialModule,
+    FlexLayoutModule
   ],
   exports:[
     NavbarComponent,
@@ -26,7 +30,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule,
-    EffectsModule
+    EffectsModule,
+    MaterialModule,
+    FlexLayoutModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

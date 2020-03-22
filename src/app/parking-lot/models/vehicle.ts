@@ -1,6 +1,6 @@
 export class Vehicle {
-    plaque: number;
-    vehicle: string;
+    vehicleID: number;
+    type: string;
     space: string;
   }
   
