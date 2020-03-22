@@ -57,28 +57,56 @@
 
   <div class="container">
     <h3 class="mb-5 mt-3">Dashboard</h3>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <!-- <th scope="col">Cell</th> -->
-          <th scope="col">Vehicle Plate</th>
-          <th scope="col">vehicle Type</th>
-          <th scope="col">Cell Space</th>
-          <th scope="col">Cell Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let vehicle of vehicles | async">
-          <td>{{vehicle.plaque}}</td>
-          <td>{{vehicle.type}}</td>
-          <td>{{vehicle.space}}</td>   
-          <td>
-            <div class="btn-group">
-              <button (click)="delete(vehicle.plaque)" class="btn btn-danger btn-sm">
-                <em class="fa fa-times"></em>
-              </button>
-            </div>
-          </td>       
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-8">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <!-- <th scope="col">Cell</th> -->
+              <th scope="col">Vehicle Plate</th>
+              <th scope="col">vehicle Type</th>
+              <th scope="col">Cell Space</th>
+              <th scope="col">Cell Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehicle of vehicles | async">
+              <td>{{vehicle.plaque}}</td>
+              <td>{{vehicle.type}}</td>
+              <td>{{vehicle.space}}</td>   
+              <td>
+                <div class="btn-group">
+                  <button (click)="delete(vehicle.plaque)" class="btn btn-danger btn-sm">
+                    <em class="fa fa-times"></em>
+                  </button>
+                </div>
+              </td>       
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+        <table class="col-2" class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Plate</th>
+              <th scope="col">Type</th>
+              <th scope="col">Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehicle of vehicles2 | async">
+              <td>{{vehicle.plaque}}</td>
+              <td>{{vehicle.type}}</td>
+              <td>{{vehicle.space}}</td>   
+              <td>
+                <div class="btn-group">
+                  <button (click)="delete(vehicle.plaque)" class="btn btn-danger btn-sm">
+                    <em class="fa fa-times"></em>
+                  </button>
+                </div>
+              </td>       
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>

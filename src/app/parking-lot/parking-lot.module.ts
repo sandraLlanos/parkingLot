@@ -13,7 +13,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {VehiclesEffects} from '../store/vehicle.effects';
 import * as vehiclesReducer from '../store/vehicle.reducers';
 import { BrowserModule } from '@angular/platform-browser';
-import { VehicleService } from './shared/vehicle.service';
 
 export const reducers: ActionReducerMap<any> = {
   vehicles: vehiclesReducer.reducer
@@ -30,8 +29,6 @@ export const reducers: ActionReducerMap<any> = {
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([VehiclesEffects])
   ],
-  providers: [
-    VehicleService
-  ]
+  providers: [ ]
 })
 export class ParkingLotModule { }

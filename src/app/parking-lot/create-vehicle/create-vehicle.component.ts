@@ -3,7 +3,7 @@ import { Vehicle } from '../shared/vehicle';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {AppState} from '../../app.state';
+import { AppState } from '../../app.state';
 import { AddVehicle } from 'src/app/store/vehicle.actions';
 
 @Component({
@@ -14,9 +14,10 @@ import { AddVehicle } from 'src/app/store/vehicle.actions';
 export class CreateVehicleComponent implements OnInit {
   title = 'Create new vehicle';
   vehicle: Vehicle = new Vehicle();
+  vehicleType:string;
   form: FormGroup;
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private store: Store<AppState>) {
     this.form = new FormGroup({
       'plaque': new FormControl(this.vehicle.plaque, [
@@ -32,6 +33,12 @@ export class CreateVehicleComponent implements OnInit {
         // Validators.minLength(3)
       ])
     });
+
+    this.form.controls.type.valueChanges.subscribe(value => {
+      console.log(value);
+      this.vehicleType = value;
+      
+    })
 
   }
 

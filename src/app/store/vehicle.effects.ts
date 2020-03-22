@@ -14,12 +14,10 @@ import {
     RemoveVehicleSuccess,
 } from './vehicle.actions';
 import { Vehicle } from '../parking-lot/shared/vehicle';
-import { VehicleService } from '../parking-lot/shared/vehicle.service';
 
 @Injectable()
 export class VehiclesEffects {
-    constructor(private actions$: Actions,
-        private svc: VehicleService) {
+    constructor(private actions$: Actions) {
     }
 
     @Effect()
@@ -27,15 +25,13 @@ export class VehiclesEffects {
         ofType(vehicleActions.CREATE_VEHICLE),
         tap(v => console.log(vehicleActions.CREATE_VEHICLE)),
         map((action: AddVehicle) => action.payload),
-        switchMap(newUser => this.svc.insert(newUser)),
         map((response) => new AddVehicleSuccess(response.plaque)),
         catchError((err) => [new AddVehicleError(err)])
     );
     @Effect()
     deleteVehicle$ = this.actions$.pipe(
         ofType(vehicleActions.DELETE_VEHICLE),
-        map((action: RemoveVehicle) => action.payload),
-        switchMap(id => this.svc.delete(id)),
+        map((action: RemoveVehicleSuccess) => action.payload),
         map((vehicle: Vehicle) => new RemoveVehicleSuccess(vehicle)),
         catchError((err) => [new RemoveVehicleError(err)])
     )
