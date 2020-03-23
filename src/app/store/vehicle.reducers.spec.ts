@@ -10,6 +10,7 @@ import {
     DELETE_VEHICLE
 } from './vehicle.actions';
 import { Vehicle } from './../parking-lot/models/vehicle';
+import { Mock } from 'protractor/built/driverProviders';
 
 const MOCK_DATA: Vehicle[] = [
     {
@@ -19,6 +20,31 @@ const MOCK_DATA: Vehicle[] = [
     },
     {
         vehicleID: 112,
+        type: 'Truck',
+        space: 'big'
+    },
+    {
+        vehicleID: 123,
+        type: 'Motorcycle',
+        space: 'small'
+    },
+    {
+        vehicleID: 456,
+        type: 'Truck',
+        space: 'big'
+    },
+    {
+        vehicleID: 789,
+        type: 'Motorcycle',
+        space: 'small'
+    },
+    {
+        vehicleID: 999,
+        type: 'Truck',
+        space: 'big'
+    },
+    {
+        vehicleID: 444,
         type: 'Truck',
         space: 'big'
     }
@@ -69,7 +95,7 @@ describe('Create new Vehicle REDUCER', () => {
         state = {...state, selected: null, done: true};
     });
 
-    it('should reduce the action CREATE_VEHICLE_SUCCESS when wating vehicles exist', () => {
+    it('should reduce the action CREATE_VEHICLE_SUCCESS when waiting vehicles exist', () => {
         const payload = 123;
         const action = new AddVehicleSuccess(payload);
         state.queue = MOCK_DATA;
@@ -117,7 +143,7 @@ describe('Deleting existing Vehicle REDUCER', () => {
         state = newState;
     });
 
-    it('should reduce the action DELETE_VEHICLE_SUCCESS', () => {
+    it('should reduce the action DELETE_VEHICLE_SUCCESS', () => {       
         const payload = MOCK_DATA[1];
         const action = new RemoveVehicleSuccess(payload);
         const data = state.queue.filter(h => h.vehicleID !== state.selected.vehicleID);
@@ -131,17 +157,18 @@ describe('Deleting existing Vehicle REDUCER', () => {
             });
     });
 
-    it('should reduce the action DELETE_VEHICLE_SUCCESS when wating vehicles exist', () => {
+    it('should reduce the action DELETE_VEHICLE_SUCCESS when waiting vehicles exist', () => {
         const payload = MOCK_DATA[1];
         state.waitqueue = MOCK_DATA;
         const action = new RemoveVehicleSuccess(payload);
         const data = state.queue.filter(h => h.vehicleID !== state.selected.vehicleID);
         data.push(state.waitqueue[0]);
         const newState = reducer(state, action);
+        MOCK_DATA.shift();
         expect({...newState}).toEqual(
             {...state,
                 queue: data,
-                waitqueue: [MOCK_DATA[1]],
+                waitqueue: MOCK_DATA,
                 selected: null,
                 done: true
             });
