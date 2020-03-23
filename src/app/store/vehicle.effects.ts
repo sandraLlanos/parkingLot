@@ -23,7 +23,6 @@ export class VehiclesEffects {
     @Effect()
     createVehicle$ = this.actions$.pipe(
         ofType(vehicleActions.CREATE_VEHICLE),
-        tap(v => console.log(vehicleActions.CREATE_VEHICLE)),
         map((action: AddVehicle) => action.payload),
         map((response) => new AddVehicleSuccess(response.vehicleID)),
         catchError((err) => [new AddVehicleError(err)])

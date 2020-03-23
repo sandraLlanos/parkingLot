@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-image: url('/assets/fondo.svg'); background-repeat: no-repeat;}
+hr {border-bottom-style: solid; color: #e4d412;}
+button.mat-raised-button.mat-primary {width: 100%; background: #e4d412; color: black;}

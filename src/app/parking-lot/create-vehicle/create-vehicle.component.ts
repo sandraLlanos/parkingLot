@@ -7,7 +7,6 @@ import { AddVehicle } from 'src/app/store/vehicle.actions';
 import { Observable } from 'rxjs';
 import {getAllVehicles, getAllVehiclesWaiting} from '../../store/vehicle.reducers';
 
-
 @Component({
   selector: 'app-create-vehicle',
   templateUrl: './create-vehicle.component.html',
@@ -27,7 +26,7 @@ export class CreateVehicleComponent implements OnInit {
     this.form = new FormGroup({
       'vehicleID': new FormControl(this.vehicle.vehicleID, [
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(6)
       ]),
       'type': new FormControl(this.vehicle.type, [
         Validators.required
@@ -36,11 +35,9 @@ export class CreateVehicleComponent implements OnInit {
         Validators.required,
       ])
     });
-
+    
     this.form.controls.type.valueChanges.subscribe(value => {
-      console.log(value);
       this.vehicleType = value;
-
     })
 
     this.form.controls.vehicleID.valueChanges.subscribe(formValue =>{
@@ -61,24 +58,19 @@ export class CreateVehicleComponent implements OnInit {
 
     })
   }
+  public hasError = (controlName: string, errorName: string) => {
+    return this.form.controls[controlName].hasError(errorName);
+  }
   get vehicleID() { return this.form.get('vehicleID'); }
   get type() { return this.form.get('type'); }
   get space() { return this.form.get('space'); }
 
   ngOnInit() {
     this.vehicles = this.store.select(getAllVehicles);
-    this.vehiclesWait = this.store.select(getAllVehiclesWaiting);    
-
+    this.vehiclesWait = this.store.select(getAllVehiclesWaiting);   
   }
   onSaveVehicle() {
     this.store.dispatch(new AddVehicle(this.form.value));
     this.router.navigate(['/list']);
-  }
-  reset() {
-    this.form.reset({
-      vehicleID: '',
-      type: '',
-      space: ''
-    })
-  }
+  }  
 }

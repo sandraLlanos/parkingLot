@@ -1,6 +1,19 @@
-# ParkinManager
+# Parking Lot
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
+
+It´s shows a list of vehicles that can be created or deleted using **@ngrx/store @ngrx/reducers and @ngrx/effects** grouping information by modules **ngrx** is a Redux inspired library created for Angular to manage changes of state.
+
+# Getting Started
+To start using the application follow the next steps:
+
+## Get the Code
+```
+git clone https://github.com/sandraLlanos/parkingLot
+cd parkingLot
+npm i
+```
+# Useful Commands
 
 ## Development server
 

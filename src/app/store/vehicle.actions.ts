@@ -10,9 +10,6 @@ export const DELETE_VEHICLE_SUCCESS = '[DELETE] Vehicle Success';
 export const DELETE_VEHICLE_ERROR = '[DELETE] Vehicle Error';
 
 
-/****************************************
- * ADD new user
- ****************************************/
 export class AddVehicle implements Action {
     readonly type = CREATE_VEHICLE;
   
@@ -34,9 +31,7 @@ export class AddVehicle implements Action {
     }
   }
   
-  /****************************************
-   * REMOVE a user by id
-   ****************************************/
+
   export class RemoveVehicle implements Action {
     readonly type = DELETE_VEHICLE;
   

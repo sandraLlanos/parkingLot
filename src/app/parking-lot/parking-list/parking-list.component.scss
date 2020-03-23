@@ -1,30 +1,6 @@
-.widget.widget-tile {
-    padding: 24px 20px;
-    margin-bottom: 25px;
-    display: flex;
-    width: 100%;
-    box-shadow: 5px 2px 9px 2px #808080b0;
+mat-card.headerCard{
+    margin-bottom: 2%;
+    width: 49%;
+    border-radius: 20px;
+    box-shadow: 3px 1px 1px 1px #8080807a;
 }
-.widget {
-    background-color: #f8f9fa;
-    border-radius: 12px;
-}
-.widget.widget-tile .chart {
-    width: 85px;
-    min-height: 45px;
-    padding: 5px 0;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.icon {
-    font-size: 2em;
-    display: table-cell;
-    width: 57px;
-    height: 35px;
-    vertical-align: top;
-}
-
-// button:focus {
-//     box-shadow: 0 0 0 2px white, 0 0 0 4px red;
-// }

@@ -3,7 +3,7 @@ import { AppAction } from '../app.actions';
 import { Vehicle } from '../parking-lot/models/vehicle';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-const PARKING_LOT_SIZE = 2;
+const PARKING_LOT_SIZE = 7;
 
 export interface State {
     queue: Vehicle[];
@@ -26,7 +26,6 @@ const initialState: State = {
 export function reducer(state = initialState, action: AppAction): State {
     switch (action.type) {
         case vehicleActions.CREATE_VEHICLE:
-            console.log(action.payload)
             return {
                 ...state,
                 selected: action.payload,
@@ -36,7 +35,6 @@ export function reducer(state = initialState, action: AppAction): State {
             };
         case vehicleActions.CREATE_VEHICLE_SUCCESS:
             {
-                console.log(state.selected)
                 const newVehicle = {
                     ...state.selected,  
                 };
@@ -97,33 +95,25 @@ export function reducer(state = initialState, action: AppAction): State {
                     done: true
                 };
             }
-        case (vehicleActions.DELETE_VEHICLE_ERROR || vehicleActions.CREATE_VEHICLE_ERROR):
-            return {
-                ...state,
-                selected: null,
-                done: true,
-                error: action.payload
-            };
+            case vehicleActions.CREATE_VEHICLE_ERROR:
+                return {
+                    ...state,
+                    selected: null,
+                    done: true,
+                    error: action.payload
+                };
+            case vehicleActions.DELETE_VEHICLE_ERROR:
+                return {
+                    ...state,
+                    selected: null,
+                    done: true,
+                    error: action.payload
+                };
+        }
+        return state;
     }
-    return state;
-}
 
 
 export const getVehiclesState = createFeatureSelector<State>('vehicles');
 export const getAllVehicles = createSelector(getVehiclesState, (state: State) => state.queue);
 export const getAllVehiclesWaiting = createSelector(getVehiclesState, (state: State) => state.waitqueue);
-export const isDeleted = createSelector(getVehiclesState, (state: State) =>
-    state.action === vehicleActions.DELETE_VEHICLE && state.done && !state.error);
-export const isCreated = createSelector(getVehiclesState, (state: State) =>
-    state.action === vehicleActions.CREATE_VEHICLE && state.done && !state.error);
-
-export const getDeleteError = createSelector(getVehiclesState, (state: State) => {
-    return state.action === vehicleActions.DELETE_VEHICLE
-        ? state.error
-        : null;
-});
-export const getCreateError = createSelector(getVehiclesState, (state: State) => {
-    return state.action === vehicleActions.CREATE_VEHICLE
-        ? state.error
-        : null;
-});

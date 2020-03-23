@@ -1,122 +1,16 @@
-<!-- <div class="no-gutters row">
-  <div class="row">
-    <div class="col-12 col-lg-6 col-xl-3">
-      <button class="widget widget-tile" routerLink="/list/create">
-        <div class="chart sparkline icon" id="spark3">
-          <em class="fas fa-car"></em>
-        </div>
-        <div class="data-info">
-          <div class="desc">Impressions</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number"
-              data-toggle="counter" data-end="532">532</span>
-          </div>
-        </div>
-      </button>
-    </div>
-    <div class="col-12 col-lg-6 col-xl-3">
-      <div class="widget widget-tile">
-        <div class="chart sparkline icon" id="spark3">
-          <em class="fas fa-car"></em>
-        </div>
-        <div class="data-info">
-          <div class="desc">Impressions</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number"
-              data-toggle="counter" data-end="532">532</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-lg-6 col-xl-3">
-      <div class="widget widget-tile">
-        <div class="chart sparkline icon" id="spark3">
-          <em class="fas fa-car"></em>
-        </div>
-        <div class="data-info">
-          <div class="desc">Impressions</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number"
-              data-toggle="counter" data-end="532">532</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-lg-6 col-xl-3">
-      <div class="widget widget-tile">
-        <div class="chart sparkline icon" id="spark3">
-          <em class="fas fa-car"></em>
-        </div>
-        <div class="data-info">
-          <div class="desc">Impressions</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number"
-              data-toggle="counter" data-end="532">532</span>
-          </div>
-        </div>
-      </div>
-    </div>
+<mat-card class="headerCard" fxLayout="column" fxLayout.lt="row" [ngStyle.lt-md]="{'width': '90%'}">  
+  <h1 [ngStyle.lt-md]="{'font-size': '1.5em'}">Welcome to the parking system.</h1>
+  <p>We have a maximum capacity of 7 parking spaces. </p> 
+</mat-card>
 
-  </div>  -->
-
-<!-- <div class="container">
-    <h3 class="mb-5 mt-3">Dashboard</h3>
-    <div class="row">
-      <div class="col-8">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Vehicle Plate</th>
-              <th scope="col">vehicle Type</th>
-              <th scope="col">Cell Space</th>
-              <th scope="col">Cell Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vehicle of vehicles | async">
-              <td>{{vehicle.plaque}}</td>
-              <td>{{vehicle.type}}</td>
-              <td>{{vehicle.space}}</td>
-              <td>
-                <div class="btn-group">
-                  <button (click)="delete(vehicle.plaque)" class="btn btn-danger btn-sm">
-                    <em class="fa fa-times"></em>
-                  </button>
-                </div>
-              </td>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-4">
-        <table class="col-2" class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Plate</th>
-              <th scope="col">Type</th>
-              <th scope="col">Space</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vehicle of vehicles2 | async">
-              <td>{{vehicle.plaque}}</td>
-              <td>{{vehicle.type}}</td>
-              <td>{{vehicle.space}}</td>
-              <td>
-                <div class="btn-group">
-                  <button (click)="delete(vehicle.plaque)" class="btn btn-danger btn-sm">
-                    <em class="fa fa-times"></em>
-                  </button>
-                </div>
-              </td>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>  -->
-
-<button routerLink="/list/create">crear</button>
-<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center" fxLayoutGap="32px">
-  <mat-card [ngStyle]="{'width': '44%' }">
+<div fxLayout="row wrap" fxLayout.lt-md="column wrap" fxLayoutAlign="center flex-start" fxLayoutGap="32px" [ngStyle]="{'margin-bottom': '10%'}" [ngStyle.lt-md]="{'margin-bottom': '10%','margin-top': '10%'}">
+  <mat-card [ngStyle]="{'width': '44%', 'border-radius': '20px' }" [ngStyle.lt-md]="{'width': '90%'}" >
+    <mat-card-title>Parked Vehicles</mat-card-title>
+    <hr>
     <mat-table #table [dataSource]="vehicles">
       <ng-container matColumnDef="Plaque">
         <mat-header-cell *matHeaderCellDef>
-          Plaque
+          Vehicle ID
         </mat-header-cell>
         <mat-cell *matCellDef="let vehicle">
           {{vehicle.vehicleID}}
@@ -144,8 +38,9 @@
         </mat-header-cell>
         <mat-cell *matCellDef="let vehicle">
           <div>
-            <button (click)="delete(vehicle.vehicleID)">
+            <button mat-stroked-button color="warn" (click)="delete(vehicle.vehicleID)">
               <em class="material-icons">delete_outline</em>
+              Delete
             </button>
           </div>
         </mat-cell>
@@ -153,12 +48,17 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
     </mat-table>
+    <button mat-raised-button color="primary" routerLink="/list/create" [ngStyle]="{'margin-top': '2%' }">New
+      Vehicle</button>
   </mat-card>
-  <mat-card [ngStyle]="{'width': '44%' }">
+
+  <mat-card [ngStyle]="{'width': '30%', 'border-radius': '20px' }" [ngStyle.lt-md]="{'width': '90%'}">
+    <mat-card-title>Waiting Vehicles</mat-card-title>
+    <hr>
     <mat-table #table1 [dataSource]="vehiclesWaiting">
       <ng-container matColumnDef="Plaque">
         <mat-header-cell *matHeaderCellDef>
-          Plaque
+          Vehicle ID
         </mat-header-cell>
         <mat-cell *matCellDef="let vehicle">
           {{vehicle.vehicleID}}
@@ -184,5 +84,4 @@
       <mat-row *matRowDef="let row; columns:displayedColumnswait"></mat-row>
     </mat-table>
   </mat-card>
-
 </div>

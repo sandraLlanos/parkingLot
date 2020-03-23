@@ -1,37 +1,43 @@
-<mat-card fxLayout fxLayoutAlign="center center" [ngStyle]="{'width': '44%'}">
-<form [formGroup]="form" #frmVehicle="ngForm" id="frmVehicle" novalidate (ngSubmit)="onSaveVehicle()">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Vehicle Plaque</mat-label>
-    <input matInput id="vehicleID" placeholder="XYZ123" formControlName="vehicleID">
-    <mat-error *ngIf="vehicleID.hasError('required')">      
-      You must enter the license plate
-    </mat-error>
-    <mat-error *ngIf="vehicleID.hasError('duplicatedID')">      
-      Ya existe
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="full-width" >
-    <mat-label>Select vehicle type</mat-label>
-    <mat-select id="Type" formControlName="type">
-      <mat-option value="Motocycle">Motocycle</mat-option>
-      <mat-option value="Sedan">Sedan</mat-option>
-      <mat-option value="Truck">Truck</mat-option>
-    </mat-select>
-    <mat-error *ngIf="type.hasError('required')">      
-      You must select vehicle type
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Select Space</mat-label>
-    <mat-select id="space" formControlName="space">
-      <mat-option value="small" *ngIf="vehicleType=='Motocycle'">small</mat-option>
-      <mat-option value="medium" *ngIf="vehicleType!='Truck'">medium</mat-option>
-      <mat-option value="big">big</mat-option>
-    </mat-select>
-    <mat-error *ngIf="space.hasError('required')">      
-      You must select vehicle space
-    </mat-error>
-  </mat-form-field>
-  <button mat-raised-button [disabled]="!form.valid" color="primary" (click)='onSaveVehicle()'>Add Vehicle</button>
-</form>
+<mat-card class="cardNew" fxLayout fxLayoutAlign="center center" [ngStyle]="{'width': '44%'}" [ngStyle.lt-md]="{'width': '90%', 'margin-top': '21%'}">
+
+  <form [formGroup]="form" #frmVehicle="ngForm" id="frmVehicle" novalidate (ngSubmit)="onSaveVehicle()">
+    <mat-card-title>New Vehicle</mat-card-title>
+    <hr>
+    <mat-form-field appearance="outline" [ngStyle]="{'width': '100%' }">
+      <mat-label>Vehicle ID</mat-label>
+      <input matInput id="vehicleID" maxlength="6" placeholder="XYZ123" formControlName="vehicleID">
+      <mat-error *ngIf="vehicleID.hasError('required')">
+        You must enter the Vehicle ID.
+      </mat-error>
+      <mat-error *ngIf="hasError('vehicleID', 'minlength')">
+        You must enter at least 6 characters
+      </mat-error>
+      <mat-error *ngIf="vehicleID.hasError('duplicatedID')">
+        The vehicle id already exists.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngStyle]="{'width': '100%' }">
+      <mat-label>Select vehicle type</mat-label>
+      <mat-select id="Type" formControlName="type">
+        <mat-option value="Motocycle">Motorcycle</mat-option>
+        <mat-option value="Sedan">Sedan</mat-option>
+        <mat-option value="Truck">Truck</mat-option>
+      </mat-select>
+      <mat-error *ngIf="type.hasError('required')">
+        You must select vehicle type
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngStyle]="{'width': '100%' }">
+      <mat-label>Select parking space</mat-label>
+      <mat-select id="space" formControlName="space">
+        <mat-option value="small" *ngIf="vehicleType=='Motorcycle'">Small</mat-option>
+        <mat-option value="medium" *ngIf="vehicleType!='Truck'">Medium</mat-option>
+        <mat-option value="Large">Large</mat-option>
+      </mat-select>
+      <mat-error *ngIf="space.hasError('required')">
+        You must select parking space
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)='onSaveVehicle()'>Add Vehicle</button>
+  </form>
 </mat-card>
